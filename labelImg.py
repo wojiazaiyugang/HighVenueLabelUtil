@@ -1499,10 +1499,12 @@ def get_main_app(argv=[]):
     app.setWindowIcon(newIcon("app"))
     # Tzutalin 201705+: Accept extra agruments to change predefined class file
     # Usage : labelImg.py image predefClassFile saveDir
+    if hasattr(sys, "frozen") and hasattr(sys, "_MEIPASS"):
+        data_path = os.path.join(sys._MEIPASS, "data", "predefined_classes.txt")
+    else:
+        data_path = os.path.join(os.path.dirname(sys.argv[0]), "data", "predefined_classes.txt")
     win = MainWindow(argv[1] if len(argv) >= 2 else None,
-                     argv[2] if len(argv) >= 3 else os.path.join(
-                         os.path.dirname(sys.argv[0]),
-                         'data', 'predefined_classes.txt'),
+                     argv[2] if len(argv) >= 3 else data_path,
                      argv[3] if len(argv) >= 4 else None)
     win.show()
     return app, win
